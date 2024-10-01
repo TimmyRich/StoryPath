@@ -15,7 +15,10 @@ const ProjectsAddEdit = ({ onSaveProject , project: targetProject}) => {
       setPublished(targetProject.is_published);
     }
   }, [targetProject]);
-  
+
+  const displayOptions = ['Display initial clue', 'Display all locations'];
+  const scoringOptions = ['Not Scored', 'Number of Scanned QR Codes', 'Number of Locations Entered'];
+
 // Check if targetProject is null, initalise empty project if true
   const [title, setTitle] = useState(targetProject ? targetProject.title : '');
   const [description, setDescription] = useState(targetProject ? targetProject.description : '');
@@ -26,10 +29,10 @@ const ProjectsAddEdit = ({ onSaveProject , project: targetProject}) => {
   const [published, setPublished] = useState(targetProject ? targetProject.is_published : false);
 
   console.log("Project Properties")
-  console.table(title, description, instructions, initialClue, display, scoring, published)
-
-  const displayOptions = ['Display initial clue', 'Display all locations'];
-  const scoringOptions = ['Not Scored', 'Number of Scanned QR Codes', 'Number of Locations Entered'];
+  console.table(display, scoring)
+  console.log("\n")
+  console.table(targetProject)
+  
 
   /**
    * clearInputs
@@ -114,7 +117,7 @@ const ProjectsAddEdit = ({ onSaveProject , project: targetProject}) => {
         </div>
         <div className="mb-3">
           <label className="form-label">Homescreen Display</label>
-          <select className="form-select" onChange={(e) => setDisplay(e.target.value)} value={display}>
+          <select className="form-select" onChange={(e) => setDisplay(e.target.value)} value={displayOptions.indexOf(display)}>
             <option value="0">Display Initial Clue</option>
             <option value="1">Display All Locations</option>
           </select>
@@ -122,7 +125,7 @@ const ProjectsAddEdit = ({ onSaveProject , project: targetProject}) => {
         </div>
         <div className="mb-3">
           <label className="form-label">Participant Scoring</label>
-          <select className="form-select" onChange={(e) => setScoring(e.target.value)} value={scoring}>
+          <select className="form-select" onChange={(e) => setScoring(e.target.value)} value={scoringOptions.indexOf(scoring)}>
             <option value="0">Not Scored</option>
             <option value="1">Number of Scanned QR Codes</option>
             <option value="2">Number of Locations Entered</option>
