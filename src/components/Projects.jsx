@@ -4,6 +4,7 @@ import { getProjects, createProject, deleteProject } from "./RESTful";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
+  const [targetProject, setTargetProject] = useState({})
   
   // Fetch all projects from API and add them to projects list
   useEffect(() => {
@@ -50,7 +51,7 @@ const Projects = () => {
               <p className="mb-0" style={{ fontFamily: 'Montserrat, sans-serif' }}>{project.description}</p>
             </div>
             <div className="btn-group" role="group" aria-label="Project actions">
-              <button type="button" className="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#ProjectsEdit">Edit</button>
+              <button type="button" className="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#ProjectsEdit" onClick={() => setTargetProject(project)}>Edit</button>
               <button type="button" className="btn btn-outline-danger" onClick={() => removeProject(project.id)}>Delete</button>
             </div>
           </li>
@@ -85,7 +86,7 @@ const Projects = () => {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
-              <ProjectsAddEdit onSaveProject={editProject} project={null} />
+              <ProjectsAddEdit onSaveProject={editProject} project={targetProject} />
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
