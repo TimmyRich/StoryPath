@@ -1,27 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 
 const ProjectsAddEdit = ({ onSaveProject , project: targetProject}) => {
-  if (targetProject === null) {
-    // Given a null project, initialise an empty one
-    targetProject = {
-      title : '',
-      description : '',
-      instructions : '',
-      initial_clue : '',
-      homescreen_display : '0',
-      is_published : false,
-      participant_scoring : '0'
-    };
-  }
 
-  const [title, setTitle] = useState(targetProject.title)
-  const [description, setDescription] = useState(targetProject.description);
-  const [instructions, setInstructions] = useState(targetProject.instructions);
-  const [initialClue, setInitialClue] = useState(targetProject.initialClue);
-  const [display, setDisplay] = useState(targetProject.homescreen_display); // '0'
-  const [scoring, setScoring] = useState(targetProject.participant_scoring); // '0'
-  const [published, setPublished] = useState(targetProject.is_published); // false
+  // Re-render form if targetProject changes
+  useEffect(() => {
+    if (targetProject) {
+      setTitle(targetProject.title);
+      setDescription(targetProject.description);
+      setInstructions(targetProject.instructions);
+      setInitialClue(targetProject.initial_clue);
+      setDisplay(targetProject.homescreen_display);
+      setScoring(targetProject.participant_scoring);
+      setPublished(targetProject.is_published);
+    }
+  }, [targetProject]);
+  
+// Check if targetProject is null, initalise empty project if true
+  const [title, setTitle] = useState(targetProject ? targetProject.title : '');
+  const [description, setDescription] = useState(targetProject ? targetProject.description : '');
+  const [instructions, setInstructions] = useState(targetProject ? targetProject.instructions : '');
+  const [initialClue, setInitialClue] = useState(targetProject ? targetProject.initial_clue : '');
+  const [display, setDisplay] = useState(targetProject ? targetProject.homescreen_display : '0');
+  const [scoring, setScoring] = useState(targetProject ? targetProject.participant_scoring : '0');
+  const [published, setPublished] = useState(targetProject ? targetProject.is_published : false);
 
   console.log("Project Properties")
   console.table(title, description, instructions, initialClue, display, scoring, published)
@@ -29,6 +31,11 @@ const ProjectsAddEdit = ({ onSaveProject , project: targetProject}) => {
   const displayOptions = ['Display initial clue', 'Display all locations'];
   const scoringOptions = ['Not Scored', 'Number of Scanned QR Codes', 'Number of Locations Entered'];
 
+  /**
+   * clearInputs
+   * 
+   * Sets the state hooks for the target project back to their default values.
+   */
   const clearInputs = () => {
     setTitle('');
     setDescription('');
