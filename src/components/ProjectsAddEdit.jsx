@@ -1,9 +1,10 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
 
-const ProjectsAddEdit = ({ onSaveProject , project}) => {
-  if (project === null) {
-    project = {
+const ProjectsAddEdit = ({ onSaveProject , project: targetProject}) => {
+  console.table(targetProject)
+  if (targetProject === null) {
+    targetProject = {
       title : '',
       description : '',
       instructions : '',
@@ -13,13 +14,13 @@ const ProjectsAddEdit = ({ onSaveProject , project}) => {
       participant_scoring : '0'
     };
   }
-  const [title, setTitle] = useState(project.title)
-  const [description, setDescription] = useState(project.description);
-  const [instructions, setInstructions] = useState(project.instructions);
-  const [initialClue, setInitialClue] = useState(project.initialClue);
-  const [display, setDisplay] = useState(project.homescreen_display); // '0'
-  const [scoring, setScoring] = useState(project.participant_scoring); // '0'
-  const [published, setPublished] = useState(project.is_published); // false
+  const [title, setTitle] = useState(targetProject.title)
+  const [description, setDescription] = useState(targetProject.description);
+  const [instructions, setInstructions] = useState(targetProject.instructions);
+  const [initialClue, setInitialClue] = useState(targetProject.initialClue);
+  const [display, setDisplay] = useState(targetProject.homescreen_display); // '0'
+  const [scoring, setScoring] = useState(targetProject.participant_scoring); // '0'
+  const [published, setPublished] = useState(targetProject.is_published); // false
 
   console.table(title, description, instructions, initialClue, display, scoring, published)
 
