@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ProjectsAddEdit from "./ProjectsAddEdit";
-import { getProjects, createProject, deleteProject } from "./RESTful";
+import { getProjects, createProject, deleteProject, editProject } from "./RESTful";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -22,7 +22,19 @@ const Projects = () => {
       console.log('Project created successfully');
       setProjects([...projects, addedProject[0]]);
     } catch (error) {
-      console.error('Error creating project:', error);
+      console.error('Error creating project', error);
+    }
+  };
+  
+  // Take project object and post it to the API database and add to projects list
+  const changeProject = async (targetProject) => {
+    try {
+      await editProject(targetProject.id, targetProject)
+      setProjects(await getProjects())
+      console.table(targetProject)
+      console.log('Project edited successfully')
+    } catch (error) {
+      console.error('Error editing project', error);
     }
   };
 
@@ -35,10 +47,6 @@ const Projects = () => {
       console.error('Error removing project', error);
     }
   };
-
-  const editProject = async (project) => {
-    console.table(project)
-  }
     
   return (
     <div className="container-fluid p-5 text-light" style={{ backgroundColor: '#1d1d1d' }}>
@@ -86,7 +94,7 @@ const Projects = () => {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
-              <ProjectsAddEdit onSaveProject={editProject} project={targetProject} />
+              <ProjectsAddEdit onSaveProject={changeProject} project={targetProject} />
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
