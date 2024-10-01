@@ -100,17 +100,3 @@ export async function editProject(id, project) {
   return apiRequest(`/project?id=eq.${id}`, 'PATCH', project);
 }
 
-let editedProject = {
-  id: 16358,
-  title: 'Edited Project',
-  description: 'This project will be edited',
-  is_published: false,
-  participant_scoring: 'Number of Locations Entered',
-  username: 's4697223',
-  instructions: 'Edit this project',
-  initial_clue: 'Edited Initial Clue',
-  homescreen_display: 'Display all locations'
-}
-
-await editProject(16358, editedProject)
-
