@@ -2,8 +2,8 @@ import { useState } from "react";
 import PropTypes from 'prop-types';
 
 const ProjectsAddEdit = ({ onSaveProject , project: targetProject}) => {
-  console.table(targetProject)
   if (targetProject === null) {
+    // Given a null project, initialise an empty one
     targetProject = {
       title : '',
       description : '',
@@ -14,6 +14,7 @@ const ProjectsAddEdit = ({ onSaveProject , project: targetProject}) => {
       participant_scoring : '0'
     };
   }
+
   const [title, setTitle] = useState(targetProject.title)
   const [description, setDescription] = useState(targetProject.description);
   const [instructions, setInstructions] = useState(targetProject.instructions);
@@ -22,11 +23,30 @@ const ProjectsAddEdit = ({ onSaveProject , project: targetProject}) => {
   const [scoring, setScoring] = useState(targetProject.participant_scoring); // '0'
   const [published, setPublished] = useState(targetProject.is_published); // false
 
+  console.log("Project Properties")
   console.table(title, description, instructions, initialClue, display, scoring, published)
 
   const displayOptions = ['Display initial clue', 'Display all locations'];
   const scoringOptions = ['Not Scored', 'Number of Scanned QR Codes', 'Number of Locations Entered'];
 
+  const clearInputs = () => {
+    setTitle('');
+    setDescription('');
+    setInstructions('');
+    setInitialClue('');
+    setDisplay('0');
+    setScoring('0');
+    setPublished(false);
+  }
+
+  /**
+   * handleSubmit
+   * 
+   * Function to handle functionality of submit button. 
+   * 
+   * @param {*} e Event sent from the submit button.
+   * @returns None.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent page reload
 
@@ -58,14 +78,7 @@ const ProjectsAddEdit = ({ onSaveProject , project: targetProject}) => {
     
     onSaveProject(newProject);
 
-    // Clear inputs
-    setTitle('');
-    setDescription('');
-    setInstructions('');
-    setInitialClue('');
-    setDisplay('0');
-    setScoring('0');
-    setPublished(false);
+    clearInputs()
   };
 
   return (
