@@ -16,9 +16,6 @@ const ProjectsAddEdit = ({ onSaveProject , project: targetProject}) => {
     }
   }, [targetProject]);
 
-  const displayOptions = ['Display initial clue', 'Display all locations'];
-  const scoringOptions = ['Not Scored', 'Number of Scanned QR Codes', 'Number of Locations Entered'];
-
 // Check if targetProject is null, initalise empty project if true
   const [title, setTitle] = useState(targetProject ? targetProject.title : '');
   const [description, setDescription] = useState(targetProject ? targetProject.description : '');
@@ -60,18 +57,6 @@ const ProjectsAddEdit = ({ onSaveProject , project: targetProject}) => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent page reload
 
-    const displayVal = displayOptions[Number(display)];
-    const scoringVal = scoringOptions[Number(scoring)];
-    const newProject = {
-      title,
-      description,
-      instructions,
-      initial_clue: initialClue,
-      homescreen_display: displayVal,
-      is_published: published,
-      participant_scoring: scoringVal
-    };
-
     // Trim inputs and check for empty fields
     if (!title.trim()) {
       alert("Title cannot be empty");
@@ -85,8 +70,43 @@ const ProjectsAddEdit = ({ onSaveProject , project: targetProject}) => {
       alert("Instructions cannot be empty");
       return;
     }
-    
-    onSaveProject(newProject);
+
+    if (onSaveProject.name === 'addProject') {
+
+      //Create template of new project
+      const displayVal = display;
+      const scoringVal = scoring;
+      const newProject = {
+        title: title,
+        description: description,
+        instructions: instructions,
+        initial_clue: initialClue,
+        homescreen_display: displayVal,
+        is_published: published,
+        participant_scoring: scoringVal
+      };
+      
+      // Make API call to add project to database
+      onSaveProject(newProject);
+    } else {
+      //Create edited project
+      const displayVal = display
+      const scoringVal = scoring
+      const editedProject = {
+        title: title,
+        description: description,
+        instructions: instructions,
+        initial_clue: initialClue,
+        homescreen_display: displayVal,
+        is_published: published,
+        participant_scoring: scoringVal,
+        id: targetProject.id,
+        username: targetProject.username
+      };
+
+      // Make API call to edit project in our database
+      onSaveProject(editedProject)
+  }
 
     clearInputs()
   };
@@ -117,18 +137,18 @@ const ProjectsAddEdit = ({ onSaveProject , project: targetProject}) => {
         </div>
         <div className="mb-3">
           <label className="form-label">Homescreen Display</label>
-          <select className="form-select" onChange={(e) => setDisplay(e.target.value)} value={displayOptions.indexOf(display)}>
-            <option value="0">Display Initial Clue</option>
-            <option value="1">Display All Locations</option>
+          <select className="form-select" onChange={(e) => setDisplay(e.target.value)} value={display}>
+            <option value="Display initial clue">Display Initial Clue</option>
+            <option value="Display all locations">Display All Locations</option>
           </select>
           <div className="form-text">Select what to display on the homescreen of the project.</div>
         </div>
         <div className="mb-3">
           <label className="form-label">Participant Scoring</label>
-          <select className="form-select" onChange={(e) => setScoring(e.target.value)} value={scoringOptions.indexOf(scoring)}>
-            <option value="0">Not Scored</option>
-            <option value="1">Number of Scanned QR Codes</option>
-            <option value="2">Number of Locations Entered</option>
+          <select className="form-select" onChange={(e) => setScoring(e.target.value)} value={scoring}>
+            <option value="Not Scored">Not Scored</option>
+            <option value="Number of Scanned QR Codes">Number of Scanned QR Codes</option>
+            <option value="Number of Locations Entered">Number of Locations Entered</option>
           </select>
           <div className="form-text">Select how participants will be scored in this project.</div>
         </div>
