@@ -1,6 +1,7 @@
 import { useState, useEffect} from "react"
 import PropTypes from 'prop-types';
 import { getLocations, deleteLocation } from "./RESTful"
+import LocationsAddEdit from "./LocationsAddEdit";
 
 const Locations = ({ projectId} ) => {
   console.log(`projectID: ${projectId}`)
@@ -47,7 +48,44 @@ const Locations = ({ projectId} ) => {
       <button type="button" className="btn btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#LocationAdd">
         Add Location
       </button>
+
+      <div className="modal fade" id="LocationAdd" tabIndex="-1" aria-labelledby="LocationAddEditLabel" aria-hidden="true">
+        <div className="modal-dialog modal-xl">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title text-dark" id="LocationAddEditLabel">Location Add Form</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <LocationsAddEdit onSaveLocation={null} location={null} />
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="modal fade" id="LocationEdit" tabIndex="-1" aria-labelledby="LocationAddEditLabel" aria-hidden="true">
+        <div className="modal-dialog modal-xl">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title text-dark" id="LocationAddEditLabel">Location Edit Form</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <LocationsAddEdit onSaveLocation={null} location={null} />
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
+
+
   )
 }
 
