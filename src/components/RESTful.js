@@ -100,3 +100,77 @@ export async function editProject(id, project) {
   return apiRequest(`/project?id=eq.${id}`, 'PATCH', project);
 }
 
+//Locations
+/**
+ * Function to insert a new location into the database.
+ * 
+ * @param {object} location - The location data to insert.
+ * @returns {Promise<object>} - The created location object returned by the API.
+ */
+export async function createLocation(location) {
+  return apiRequest('/location', 'POST', location);
+}
+
+/**
+ * Function to list all locations associated with the current user or a specific project.
+ * 
+ * @param {string} [projectId=null] - Optional project ID to filter locations by project.
+ * @returns {Promise<Array>} - An array of location objects.
+ */
+export async function getLocations(projectId = null) {
+  const endpoint = projectId ? `/location?project_id=eq.${projectId}` : '/location';
+  return apiRequest(endpoint);
+}
+
+/**
+ * Function to get a single location by its ID.
+ * 
+ * @param {string} id - The ID of the location to retrieve.
+ * @returns {Promise<object>} - The location object matching the ID.
+ */
+export async function getLocation(id) {
+  return apiRequest(`/location?id=eq.${id}`);
+}
+
+/**
+ * Function to delete a location by its ID.
+ * 
+ * @param {string} id - The ID of the location to delete.
+ * @returns {Promise<void>} - A promise that resolves when the location is deleted.
+ */
+export async function deleteLocation(id) {
+  return apiRequest(`/location?id=eq.${id}`, 'DELETE');
+}
+
+/**
+ * Function to update an existing location in the database.
+ * 
+ * @param {string} id - The ID of the location to update.
+ * @param {object} location - The updated location data.
+ * @returns {Promise<object>} - The updated location object returned by the API.
+ */
+export async function editLocation(id, location) {
+  return apiRequest(`/location?id=eq.${id}`, 'PATCH', location);
+}
+/**
+ * Function to generate a location object given some input parameters.
+ * 
+ * @param {*} name The name of the location
+ * @param {*} trigger How the location is triggered by the app.
+ * @param {*} position The position of the location by lattitude and longitude.
+ * @param {*} points How many points the location is worth
+ * @param {*} clue The clue to the next location.
+ * @param {*} locationContent Content displayed to the user when the location is visited.
+ * @returns 
+ */
+export const generateLocation = (name, project_id, trigger = "Location Entry") => {
+  return {project_id: project_id, location_name: name, location_trigger: trigger}
+}
+
+//Sandbox testing
+
+let location1 = {location_name: "Location 2", project_id: "16754", location_trigger: "Location Entry", }
+
+await createLocation(location1)
+
+console.log(await getLocations())
