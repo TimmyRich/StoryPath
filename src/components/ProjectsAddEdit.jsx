@@ -24,13 +24,7 @@ const ProjectsAddEdit = ({ onSaveProject , project: targetProject}) => {
   const [display, setDisplay] = useState(targetProject ? targetProject.homescreen_display : '0');
   const [scoring, setScoring] = useState(targetProject ? targetProject.participant_scoring : '0');
   const [published, setPublished] = useState(targetProject ? targetProject.is_published : false);
-
-  console.log("Project Properties")
-  console.table(display, scoring)
-  console.log("\n")
-  console.table(targetProject)
   
-
   /**
    * clearInputs
    * 

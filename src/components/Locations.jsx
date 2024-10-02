@@ -1,7 +1,31 @@
+import { useState, useEffect} from "react"
+import PropTypes from 'prop-types';
+import { getLocations, deleteLocation } from "./RESTful"
 
+const Locations = ({ projectId} ) => {
+  console.log(`projectID: ${projectId}`)
+  const [locations, setLocations] = useState([])
 
-const Locations = () => {
-  const locations = [{title: "Location 1", description: "Description of Location 1"}, {title: "Location 2", description: "Description of Location 2"}]
+  // Fetch all locations from database and add them to locations list
+  useEffect(() => {
+    const fetchLocations = async () => {
+      const myLocations = await getLocations(projectId);
+      setLocations(myLocations);
+    };
+    fetchLocations();
+  }, [projectId]);
+
+  // Remove project with the given project ID and remove from local projects list and the API database
+  const removeLocation = async (locationId) => {
+    setLocations([...locations.filter(location => location.id !== locationId)]);
+    try {
+      deleteLocation(locationId);
+    } catch (error) {
+      console.error('Error removing location', error);
+    }
+  };
+
+  //const fakeLocations = [{title: "Location 1", description: "Description of Location 1"}, {title: "Location 2", description: "Description of Location 2"}]
   
   return (
     <div className="container-fluid p-5 text-light" style={{ backgroundColor: '#1d1d1d' }}>
@@ -10,12 +34,12 @@ const Locations = () => {
         {locations.map((location, index) => (
           <li key={index} className="list-group-item d-flex justify-content-between align-items-center bg-dark text-light mb-2 rounded">
             <div>
-              <h5 className="mb-1" style={{ fontFamily: 'Montserrat, sans-serif' }}>{location.title}</h5>
-              <p className="mb-0" style={{ fontFamily: 'Montserrat, sans-serif' }}>{location.description}</p>
+              <h5 className="mb-1" style={{ fontFamily: 'Montserrat, sans-serif' }}>{location.location_name}</h5>
+              <p className="mb-0" style={{ fontFamily: 'Montserrat, sans-serif' }}>{location.location_trigger}</p>
             </div>
             <div className="btn-group" role="group" aria-label="Location actions">
               <button type="button" className="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#LocationEdit">Edit</button>
-              <button type="button" className="btn btn-outline-danger">Delete</button>
+              <button type="button" className="btn btn-outline-danger" onClick={() => removeLocation(location.id)}>Delete</button>
             </div>
           </li>
         ))}
@@ -26,5 +50,9 @@ const Locations = () => {
     </div>
   )
 }
+
+Locations.propTypes = {
+  projectId: PropTypes.func.isRequired
+};
 
 export default Locations
