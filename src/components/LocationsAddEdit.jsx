@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactQuill from 'react-quill'; // Assuming you're using ReactQuill for rich text editing
 import 'react-quill/dist/quill.snow.css'; // Importing ReactQuill styles
 
-const LocationsAddEdit = ({ onSaveLocation, location }) => {
+const LocationsAddEdit = ({ onSaveLocation, location, projectId }) => {
   const [locationName, setLocationName] = useState(location?.location_name || '');
   const [locationTrigger, setLocationTrigger] = useState(location?.location_trigger || 'Location Entry');
   const [locationPosition, setLocationPosition] = useState(location?.location_position || '(27.4975,153.013276)');
@@ -11,6 +11,15 @@ const LocationsAddEdit = ({ onSaveLocation, location }) => {
   const [clue, setClue] = useState(location?.clue || '');
   const [locationContent, setLocationContent] = useState(location?.location_content || '');
   
+  const clearInputs = () => {
+    setLocationName('');
+    setLocationTrigger('Location Entry');
+    setLocationPosition('(27.4975,153.013276)');
+    setScorePoints(5);
+    setClue('');
+    setLocationContent('');
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const newLocation = {
@@ -20,12 +29,16 @@ const LocationsAddEdit = ({ onSaveLocation, location }) => {
       score_points: scorePoints,
       clue: clue,
       location_content: locationContent,
+      project_id: projectId
     };
+    console.table(newLocation)
     onSaveLocation(newLocation); // Call the parent component's save function
+    clearInputs()
   };
 
   return (
     <div className="container p-5 text-dark">
+      <h2 className="text-center mb-4">Project Location</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">Location Name</label>
@@ -59,6 +72,7 @@ const LocationsAddEdit = ({ onSaveLocation, location }) => {
             className="form-control" 
             value={locationPosition} 
             onChange={(e) => setLocationPosition(e.target.value)} 
+            required
           />
           <div className="form-text">Enter the latitude and longitude for this location (e.g., (27.4975,153.013276)).</div>
         </div>
@@ -99,8 +113,9 @@ const LocationsAddEdit = ({ onSaveLocation, location }) => {
 };
 
 LocationsAddEdit.propTypes = {
-  onSaveLocation: PropTypes.func.isRequired,
+  onSaveLocation: PropTypes.func,
   location: PropTypes.object,
+  projectId: PropTypes.string
 };
 
 export default LocationsAddEdit;

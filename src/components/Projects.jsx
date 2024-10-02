@@ -60,7 +60,7 @@ const Projects = () => {
             </div>
             <div className="btn-group" role="group" aria-label="Project actions">
               <button type="button" className="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#ProjectsEdit" onClick={() => setTargetProject(project)}>Edit</button>
-              <NavLink to="/Locations" type="button" className="btn btn-outline-success" projectId={project.id}>Locations</NavLink>
+              <NavLink to={`/Locations/${project.id}`} type="button" className="btn btn-outline-success">Locations</NavLink>
               <button type="button" className="btn btn-outline-danger" onClick={() => removeProject(project.id)}>Delete</button>
             </div>
           </li>

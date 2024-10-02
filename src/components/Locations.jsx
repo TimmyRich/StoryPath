@@ -1,10 +1,11 @@
 import { useState, useEffect} from "react"
-import PropTypes from 'prop-types';
-import { getLocations, deleteLocation } from "./RESTful"
+import { useParams } from "react-router-dom";
+import { getLocations, deleteLocation, createLocation } from "./RESTful"
 import LocationsAddEdit from "./LocationsAddEdit";
 
-const Locations = ({ projectId} ) => {
-  console.log(`projectID: ${projectId}`)
+const Locations = () => {
+  const { projectId } = useParams(); // This will retrieve the projectId from the URL
+  console.log(`Project ID: ${projectId}`);
   const [locations, setLocations] = useState([])
 
   // Fetch all locations from database and add them to locations list
@@ -25,6 +26,16 @@ const Locations = ({ projectId} ) => {
       console.error('Error removing location', error);
     }
   };
+
+   // Take location object and post it to the API database and add to locations list
+const addLocation = async (newLocation) => {
+  try {
+    const addedLocation = await createLocation(newLocation);
+    setLocations([...locations, addedLocation[0]]);
+  } catch (error) {
+    console.error('Error creating location', error);
+  }
+};
 
   //const fakeLocations = [{title: "Location 1", description: "Description of Location 1"}, {title: "Location 2", description: "Description of Location 2"}]
   
@@ -57,7 +68,7 @@ const Locations = ({ projectId} ) => {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
-              <LocationsAddEdit onSaveLocation={null} location={null} />
+              <LocationsAddEdit onSaveLocation={addLocation} projectId={projectId}/>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -74,7 +85,7 @@ const Locations = ({ projectId} ) => {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
-              <LocationsAddEdit onSaveLocation={null} location={null} />
+              <LocationsAddEdit onSaveLocation={null} location={null} projectId={projectId} />
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -88,9 +99,5 @@ const Locations = ({ projectId} ) => {
 
   )
 }
-
-Locations.propTypes = {
-  projectId: PropTypes.func.isRequired
-};
 
 export default Locations

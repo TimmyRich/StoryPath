@@ -18,7 +18,7 @@ function App() {
         <div className="row flex-grow-1 overflow-auto">
           <Routes>
             <Route path="/Projects" element={<Projects />} />
-            <Route path="/Locations" element={<Locations />} />
+            <Route path="/Locations/:projectId" element={<Locations />} />
             <Route path="/" element={<Home />} />
           </Routes>
         </div>
