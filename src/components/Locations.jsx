@@ -1,12 +1,12 @@
 import { useState, useEffect} from "react"
 import { useParams } from "react-router-dom";
-import { getLocations, deleteLocation, createLocation } from "./RESTful"
+import { getLocations, deleteLocation, createLocation, editLocation } from "./RESTful"
 import LocationsAddEdit from "./LocationsAddEdit";
 
 const Locations = () => {
   const { projectId } = useParams(); // This will retrieve the projectId from the URL
-  console.log(`Project ID: ${projectId}`);
   const [locations, setLocations] = useState([])
+  const [targetLocation, setTargetLocation] = useState({})
 
   // Fetch all locations from database and add them to locations list
   useEffect(() => {
@@ -28,14 +28,24 @@ const Locations = () => {
   };
 
    // Take location object and post it to the API database and add to locations list
-const addLocation = async (newLocation) => {
-  try {
-    const addedLocation = await createLocation(newLocation);
-    setLocations([...locations, addedLocation[0]]);
-  } catch (error) {
-    console.error('Error creating location', error);
-  }
-};
+  const addLocation = async (newLocation) => {
+    try {
+      const addedLocation = await createLocation(newLocation);
+      setLocations([...locations, addedLocation[0]]);
+    } catch (error) {
+      console.error('Error creating location', error);
+    }
+  };
+
+  // Take project object and post it to the API database and add to projects list
+  const changeLocation = async (targetLocation) => {
+    try {
+      await editLocation(targetLocation.id, targetLocation)
+      setLocations(await getLocations())
+    } catch (error) {
+      console.error('Error editing location', error);
+    }
+  };
 
   //const fakeLocations = [{title: "Location 1", description: "Description of Location 1"}, {title: "Location 2", description: "Description of Location 2"}]
   
@@ -50,8 +60,20 @@ const addLocation = async (newLocation) => {
               <p className="mb-0" style={{ fontFamily: 'Montserrat, sans-serif' }}>{location.location_trigger}</p>
             </div>
             <div className="btn-group" role="group" aria-label="Location actions">
-              <button type="button" className="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#LocationEdit">Edit</button>
-              <button type="button" className="btn btn-outline-danger" onClick={() => removeLocation(location.id)}>Delete</button>
+              <button 
+              type="button" 
+              className="btn btn-outline-danger" 
+              onClick={() => removeLocation(location.id)}>
+                Delete
+              </button>
+              <button 
+              type="button" 
+              className="btn btn-outline-primary" 
+              data-bs-toggle="modal" 
+              data-bs-target="#LocationEdit"
+              onClick={() => setTargetLocation(location)}>
+                Edit
+              </button>
             </div>
           </li>
         ))}
@@ -85,7 +107,7 @@ const addLocation = async (newLocation) => {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
-              <LocationsAddEdit onSaveLocation={null} location={null} projectId={projectId} />
+              <LocationsAddEdit onSaveLocation={changeLocation} location={targetLocation} projectId={projectId} />
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>

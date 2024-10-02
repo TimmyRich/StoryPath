@@ -22,17 +22,32 @@ const LocationsAddEdit = ({ onSaveLocation, location, projectId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newLocation = {
-      location_name: locationName,
-      location_trigger: locationTrigger,
-      location_position: locationPosition,
-      score_points: scorePoints,
-      clue: clue,
-      location_content: locationContent,
-      project_id: projectId
-    };
+    if (onSaveLocation.name === "changeLocation") {
+      const newLocation = {
+        location_name: locationName,
+        location_trigger: locationTrigger,
+        location_position: locationPosition,
+        score_points: scorePoints,
+        clue: clue,
+        location_content: locationContent,
+        project_id: projectId,
+        id: location.id,
+        username: location.username
+      };
     console.table(newLocation)
     onSaveLocation(newLocation); // Call the parent component's save function
+    } else {
+      const editedLocation = {
+        location_name: locationName,
+        location_trigger: locationTrigger,
+        location_position: locationPosition,
+        score_points: scorePoints,
+        clue: clue,
+        location_content: locationContent,
+        project_id: projectId
+      }
+      onSaveLocation(editedLocation)
+    }
     clearInputs()
   };
 
@@ -105,7 +120,7 @@ const LocationsAddEdit = ({ onSaveLocation, location, projectId }) => {
           <div className="form-text">Provide additional content displayed when participants reach this location. Images must be small and in base64 format.</div>
         </div>
         <div className="text-center">
-          <button type="submit" className="btn btn-primary">{location ? 'Save Changes' : 'Add Location'}</button>
+          <button type="submit" className="btn btn-primary">Save Location</button>
         </div>
       </form>
     </div>
