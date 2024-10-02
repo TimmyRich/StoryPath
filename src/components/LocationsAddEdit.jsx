@@ -26,7 +26,6 @@ const LocationsAddEdit = ({ onSaveLocation, location }) => {
 
   return (
     <div className="container p-5 text-dark">
-      <h2 className="text-center mb-4">{location ? 'Edit Location' : 'Add Location'}</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">Location Name</label>

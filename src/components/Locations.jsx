@@ -53,7 +53,7 @@ const Locations = ({ projectId} ) => {
         <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title text-dark" id="LocationAddEditLabel">Location Add Form</h5>
+              <h3 className="modal-title text-dark" id="LocationAddEditLabel">Location Add Form</h3>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
@@ -70,7 +70,7 @@ const Locations = ({ projectId} ) => {
         <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title text-dark" id="LocationAddEditLabel">Location Edit Form</h5>
+              <h3 className="modal-title text-dark" id="LocationAddEditLabel">Location Edit Form</h3>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">

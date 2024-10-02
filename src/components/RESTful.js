@@ -1,5 +1,3 @@
-//import fetch from 'node-fetch';
-
 // Base URL for the Storypath RESTful API
 const API_BASE_URL = 'https://0b5ff8b0.uqcloud.net/api';
 
@@ -169,8 +167,6 @@ export const generateLocation = (name, project_id, trigger = "Location Entry") =
 
 //Sandbox testing
 
-let location1 = {location_name: "Location 2", project_id: "16754", location_trigger: "Location Entry", }
-
-await createLocation(location1)
-
-console.log(await getLocations())
+//let location1 = {location_name: "Location 2", project_id: "16812", location_trigger: "Location Entry", }
+//await createLocation(location1)
+//console.log(await getLocations())
