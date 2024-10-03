@@ -18,8 +18,18 @@ const Locations = () => {
   }, [projectId]);
 
   // Remove project with the given project ID and remove from local projects list and the API database
-  const removeLocation = async (locationId) => {
-    setLocations([...locations.filter(location => location.id !== locationId)].sort(locationSort));
+  const removeLocation = async (removedlocation) => {
+    let locationId = removedlocation.id
+
+    // Adjust the order for locations above the removed location
+    const newLocations = [...locations].map(location => {
+      if (location.location_order > removedlocation.location_order) {
+        return {...location, location_order: location.location_order - 1}
+      } else
+      return location
+    }).filter(location => location.id !== locationId)
+    .sort(locationSort)
+    setLocations(newLocations);
     try {
       deleteLocation(locationId);
     } catch (error) {
@@ -96,7 +106,7 @@ const Locations = () => {
               <button 
               type="button" 
               className="btn btn-outline-danger" 
-              onClick={() => removeLocation(location.id)}>
+              onClick={() => removeLocation(location)}>
                 Delete
               </button>
               <button 
