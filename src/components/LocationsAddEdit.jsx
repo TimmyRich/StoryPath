@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import ReactQuill from 'react-quill'; // Assuming you're using ReactQuill for rich text editing
+import { useQuill } from "react-quilljs";
 import 'react-quill/dist/quill.snow.css'; // Importing ReactQuill styles
 
 const LocationsAddEdit = ({ onSaveLocation, location, projectId }) => {
@@ -10,6 +10,10 @@ const LocationsAddEdit = ({ onSaveLocation, location, projectId }) => {
   const [scorePoints, setScorePoints] = useState(location ? location.score_points : 5);
   const [clue, setClue] = useState(location ? location.clue : '');
   const [locationContent, setLocationContent] = useState(location ? location.location_content : '');
+  const { quill, quillRef } = useQuill({ placeholder: "123" });
+
+  console.log("quill below:")
+  console.log(quill)
 
   // Update form fields when location prop changes
   useEffect(() => {
@@ -125,10 +129,7 @@ const LocationsAddEdit = ({ onSaveLocation, location, projectId }) => {
         </div>
         <div className="mb-3">
           <label className="form-label">Location Content</label>
-          <ReactQuill 
-            value={locationContent} 
-            onChange={setLocationContent} 
-          />
+          <div ref={quillRef} />
           <div className="form-text">Provide additional content displayed when participants reach this location. Images must be small and in base64 format.</div>
         </div>
         <div className="text-center">
