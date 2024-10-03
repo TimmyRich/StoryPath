@@ -60,7 +60,7 @@ const Preview = () => {
     return (
         <div className="container-fluid p-5 text-light" style={{ backgroundColor: '#1d1d1d' }}>
             <h2 className="display-4 fw-bold mb-2" style={{ fontFamily: 'Roboto, sans-serif' }}>
-                {`Preview for Project ${project.title}`}
+                {`Preview for Project: ${project.title}`}
             </h2>
             
             {/* Dropdown below the header */}
@@ -152,15 +152,36 @@ const Preview = () => {
                                 )}
                                 
                             </div>
-                        ) : (
+                        ) : ( project.homescreen_display === "Display all locations" ? (
                             <div>
                                 {/* Homescreen Content */}
-                                {locations.forEach((location) => {(
-                                    <h4>{`${location.location_name}`}</h4>
-                                )
-                                })}
+                                {locations.map((location) => (
+                                    <div
+                                    className="container"
+                                    key={location.id}
+                                    style={{
+                                        display: "inline-block",
+                                        backgroundColor: "#007bff", // Blue background color
+                                        borderRadius: "50px", // Make it pill-shaped
+                                        padding: "10px 20px", // Padding for some space
+                                        color: "white", // Text color
+                                        margin: "5px", // Space between pills
+                                        textAlign: "center", // Center the text
+                                        fontSize: "16px", // Font size
+                                    }}
+                                >
+                                    <h4 style={{ margin: 0 }}>{`${location.location_name}`}</h4>
+                                </div>
+                                ))}
                             </div>
-                        )}
+                        ) : (
+                            <div>
+                                <h3>Instructions</h3>
+                                <p>{`${project.instructions}`}</p>
+                                <h3>Initial Clue</h3>
+                                <p>{`${project.initial_clue}`}</p>
+                            </div>
+                        ))} 
                         <h4>{`${targetLocation?.clue ? `Clue for next location:\n${targetLocation.clue}` : ""}`}</h4>
                         {/* Blue pill-shaped container for score/visited */}
                         <div style={{
