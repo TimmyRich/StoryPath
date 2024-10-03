@@ -62,9 +62,13 @@ const Locations = () => {
             <div className="btn-group" role="group" aria-label="Location actions">
               <button 
               type="button" 
-              className="btn btn-outline-danger" 
-              onClick={() => removeLocation(location.id)}>
-                Delete
+              className="btn btn-outline-light">
+                &uarr;
+              </button>
+              <button 
+              type="button" 
+              className="btn btn-outline-light">
+                &darr;
               </button>
               <button 
               type="button" 
@@ -73,6 +77,17 @@ const Locations = () => {
               data-bs-target="#LocationEdit"
               onClick={() => setTargetLocation(location)}>
                 Edit
+              </button>
+              <button 
+              type="button" 
+              className="btn btn-outline-danger" 
+              onClick={() => removeLocation(location.id)}>
+                Delete
+              </button>
+              <button 
+              type="button" 
+              className="btn btn-outline-success">
+                Print QR Code
               </button>
             </div>
           </li>
