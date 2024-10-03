@@ -12,14 +12,14 @@ const Locations = () => {
   useEffect(() => {
     const fetchLocations = async () => {
       const myLocations = await getLocations(projectId);
-      setLocations(myLocations);
+      setLocations(myLocations.sort(locationSort));
     };
     fetchLocations();
   }, [projectId]);
 
   // Remove project with the given project ID and remove from local projects list and the API database
   const removeLocation = async (locationId) => {
-    setLocations([...locations.filter(location => location.id !== locationId)]);
+    setLocations([...locations.filter(location => location.id !== locationId)].sort(locationSort));
     try {
       deleteLocation(locationId);
     } catch (error) {
@@ -29,9 +29,12 @@ const Locations = () => {
 
    // Take location object and post it to the API database and add to locations list
   const addLocation = async (newLocation) => {
+    newLocation.location_order = getNextOrder()
+    console.log(`New location is:`)
+    console.log(newLocation)
     try {
       const addedLocation = await createLocation(newLocation);
-      setLocations([...locations, addedLocation[0]]);
+      setLocations([...locations, addedLocation[0]].sort(locationSort));
     } catch (error) {
       console.error('Error creating location', error);
     }
@@ -46,6 +49,15 @@ const Locations = () => {
       console.error('Error editing location', error);
     }
   };
+
+  // Sort Locations by location_order. Should be called when setting locations.
+  const locationSort = (location1, location2) => {
+    return location1.location_order - location2.location_order
+  }
+
+  const getNextOrder = () => {
+    return locations[locations.length - 1].location_order + 1;
+  }
 
   //const fakeLocations = [{title: "Location 1", description: "Description of Location 1"}, {title: "Location 2", description: "Description of Location 2"}]
   
