@@ -68,8 +68,6 @@ const Locations = () => {
   const getNextOrder = () => {
     return locations[locations.length - 1].location_order + 1;
   }
-
-  //const fakeLocations = [{title: "Location 1", description: "Description of Location 1"}, {title: "Location 2", description: "Description of Location 2"}]
   
   return (
     <div className="container-fluid p-5 text-light" style={{ backgroundColor: '#1d1d1d' }}>
