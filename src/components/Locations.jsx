@@ -1,6 +1,6 @@
 import { useState, useEffect} from "react"
 import { useParams, NavLink } from "react-router-dom";
-import { getLocations, deleteLocation, createLocation, editLocation } from "./RESTful"
+import { getLocations, deleteLocation, createLocation, editLocation, locationSort } from "./RESTful"
 import LocationsAddEdit from "./LocationsAddEdit";
 import QRCode from "react-qr-code";
 
@@ -64,11 +64,6 @@ const Locations = () => {
       console.error('Error editing location', error);
     }
   };
-
-  // Sort Locations by location_order. Should be called when setting locations.
-  const locationSort = (location1, location2) => {
-    return location1.location_order - location2.location_order
-  }
 
   const getNextOrder = () => {
     return locations.length ? locations[locations.length - 1].location_order + 1 : 0
@@ -215,13 +210,8 @@ const Locations = () => {
           </div>
         </div>
       )}
-      
-      
     
     </div>
-
-    
-
   )
 }
 

@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-//import { useQuill } from "react-quilljs";
 import 'react-quill/dist/quill.snow.css'; // Importing ReactQuill styles
 import WYSIWYGEditor from './WYSIWYGEditor';
 
@@ -133,12 +131,6 @@ const LocationsAddEdit = ({ onSaveLocation, location, projectId }) => {
       </form>
     </div>
   );
-};
-
-LocationsAddEdit.propTypes = {
-  onSaveLocation: PropTypes.func,
-  location: PropTypes.object,
-  projectId: PropTypes.string
 };
 
 export default LocationsAddEdit;

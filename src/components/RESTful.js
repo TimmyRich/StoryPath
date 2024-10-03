@@ -165,6 +165,11 @@ export const generateLocation = (name, project_id, trigger = "Location Entry") =
   return {project_id: project_id, location_name: name, location_trigger: trigger}
 }
 
+// Sort Locations by location_order. Should be called when setting locations.
+export const locationSort = (location1, location2) => {
+  return location1.location_order - location2.location_order
+}
+
 //Sandbox testing
 
 //let location1 = {location_name: "Location 2", project_id: "16812", location_trigger: "Location Entry", }

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import PropTypes from 'prop-types';
 
 const ProjectsAddEdit = ({ onSaveProject , project: targetProject }) => {
 
@@ -160,11 +159,6 @@ const ProjectsAddEdit = ({ onSaveProject , project: targetProject }) => {
       </form>
     </div>
   );
-};
-
-ProjectsAddEdit.propTypes = {
-  onSaveProject: PropTypes.func.isRequired,
-  project: PropTypes.any,
 };
 
 export default ProjectsAddEdit;

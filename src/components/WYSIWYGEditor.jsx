@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Importing Quill styles
 
@@ -35,11 +34,6 @@ const WYSIWYGEditor = ({ content, onChange }) => {
       />
     </div>
   );
-};
-
-WYSIWYGEditor.propTypes = {
-  content: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
 };
 
 export default WYSIWYGEditor;
