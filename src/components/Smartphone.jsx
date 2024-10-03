@@ -1,5 +1,9 @@
-const Smartphone = () => {
-    return (
+import { useState } from "react";
+
+const Smartphone = ({project, selectedLocation}) => {
+  const [targetLocation, setTargetLocation] = useState(selectedLocation? selectedLocation : null)
+    
+  return (
       <div
         style={{
           width: "300px",
@@ -27,7 +31,8 @@ const Smartphone = () => {
           }}
         >
           <h3>Smartphone Screen</h3>
-          <p>Your app content goes here!</p>
+          <h3>Loading...</h3>
+          <h3>{targetLocation}</h3>
         </div>
   
         {/* Home Button */}
