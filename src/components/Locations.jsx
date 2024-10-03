@@ -54,7 +54,7 @@ const Locations = () => {
   const changeLocation = async (targetLocation) => {
     try {
       await editLocation(targetLocation.id, targetLocation)
-      setLocations(await getLocations())
+      setLocations((await getLocations(projectId)).sort(locationSort))
     } catch (error) {
       console.error('Error editing location', error);
     }
@@ -66,9 +66,36 @@ const Locations = () => {
   }
 
   const getNextOrder = () => {
-    return locations[locations.length - 1].location_order + 1;
+    return locations.length ? locations[locations.length - 1].location_order + 1 : 0
   }
   
+  const changeOrder = (targetLocation, delta) => {
+    //we want to swap location with the location that is either above or below it which
+    //will mean editing both locations so that they have swapped their location_order
+    //property. Then we get an updated list from the database, sort it and then update
+    //the local list of locations
+    if (delta * delta !== 1) {
+      console.error('Must only change order one place at a time')
+      return
+    }
+
+    //find location in the position we want to move our targetLocation to
+    let otherLocation = locations.find(location => location.location_order === targetLocation.location_order + delta);
+    if (otherLocation === undefined) {
+      console.error('Could not find other location')
+      return 
+    }
+    //swap their orders
+    let temp = targetLocation.location_order
+    targetLocation.location_order = otherLocation.location_order
+    otherLocation.location_order = temp
+    //make changes to database
+    changeLocation(targetLocation)
+    changeLocation(otherLocation)
+    setLocations([...locations].sort(locationSort))
+
+  }
+
   return (
     <div className="container-fluid p-5 text-light" style={{ backgroundColor: '#1d1d1d' }}>
       <h2 className="display-4 fw-bold mb-4" style={{ fontFamily: 'Roboto, sans-serif' }}>Project Locations</h2>
@@ -85,12 +112,14 @@ const Locations = () => {
             <div className="btn-group" role="group" aria-label="Location actions">
               <button 
               type="button" 
-              className="btn btn-outline-light">
+              className="btn btn-outline-light"
+              onClick={() => changeOrder(location, -1)}>
                 &uarr;
               </button>
               <button 
               type="button" 
-              className="btn btn-outline-light">
+              className="btn btn-outline-light"
+              onClick={() => changeOrder(location, 1)}>
                 &darr;
               </button>
               <button 
