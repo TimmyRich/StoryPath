@@ -57,7 +57,10 @@ const Locations = () => {
           <li key={index} className="list-group-item d-flex justify-content-between align-items-center bg-dark text-light mb-2 rounded">
             <div>
               <h5 className="mb-1" style={{ fontFamily: 'Montserrat, sans-serif' }}>{location.location_name}</h5>
-              <p className="mb-0" style={{ fontFamily: 'Montserrat, sans-serif' }}>{location.location_trigger}</p>
+              <p className="mb-0" style={{ fontFamily: 'Montserrat, sans-serif' }}>{`Trigger: ${location.location_trigger}`}</p>
+              <p className="mb-0" style={{ fontFamily: 'Montserrat, sans-serif' }}>{`Location: ${location.location_position}`}</p>
+              <p className="mb-0" style={{ fontFamily: 'Montserrat, sans-serif' }}>{`Points: ${location.score_points}`}</p>
+              <p className="mb-0" style={{ fontFamily: 'Montserrat, sans-serif' }}>{`Order: ${location.location_order}`}</p>
             </div>
             <div className="btn-group" role="group" aria-label="Location actions">
               <button 
