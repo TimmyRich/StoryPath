@@ -2,13 +2,14 @@ import { useState, useEffect} from "react"
 import { useParams } from "react-router-dom";
 import { getLocations, deleteLocation, createLocation, editLocation } from "./RESTful"
 import LocationsAddEdit from "./LocationsAddEdit";
-//import { QRCode } from 'qrcode.react';
+import QRCode from "react-qr-code";
 
 
 const Locations = () => {
   const { projectId } = useParams(); // This will retrieve the projectId from the URL
   const [locations, setLocations] = useState([])
   const [targetLocation, setTargetLocation] = useState({})
+  const [showQRCodes, setShowQRCodes] = useState(false)
 
   // Fetch all locations from database and add them to locations list
   useEffect(() => {
@@ -18,6 +19,10 @@ const Locations = () => {
     };
     fetchLocations();
   }, [projectId]);
+
+  const toggleQRCodes = () => {
+    setShowQRCodes(!showQRCodes)
+  }
 
   // Remove project with the given project ID and remove from local projects list and the API database
   const removeLocation = async (removedlocation) => {
@@ -103,7 +108,8 @@ const Locations = () => {
       <div className="d-flex justify-content-between align-items-center">
         <h2 className="display-4 fw-bold mb-4 " style={{ fontFamily: 'Roboto, sans-serif' }}>Project Locations</h2>
         <div className="">
-          <button className="btn btn-large btn-success"> Print Qr Codes</button>
+          <button className="btn btn-large btn-success" onClick={toggleQRCodes}> Print Qr Codes</button>
+          
         </div>
         
       </div>
@@ -186,8 +192,30 @@ const Locations = () => {
           </div>
         </div>
       </div>
+    
+      {showQRCodes && (
+        <div className="container mt-5 p-4 bg-light rounded shadow">
+          <h2 className="text-dark text-center mb-4" style={{ fontFamily: 'Roboto, sans-serif' }}>QR Codes</h2>
+          <div className="row">
+            {locations.map(location => (
+              <div key={location.id} className="col-lg-3 col-md-4 col-sm-6 d-flex justify-content-center mb-4">
+                <div className="p-3 bg-white rounded shadow-sm">
+                  <QRCode value={`locationId=${location.id}&projectId=${projectId}`} size={128} />
+                  <p className="text-center text-dark mt-3" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    {location.location_name}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      
+      
+    
     </div>
 
+    
 
   )
 }
