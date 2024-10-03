@@ -2,6 +2,8 @@ import { useState, useEffect} from "react"
 import { useParams } from "react-router-dom";
 import { getLocations, deleteLocation, createLocation, editLocation } from "./RESTful"
 import LocationsAddEdit from "./LocationsAddEdit";
+//import { QRCode } from 'qrcode.react';
+
 
 const Locations = () => {
   const { projectId } = useParams(); // This will retrieve the projectId from the URL
@@ -98,7 +100,14 @@ const Locations = () => {
 
   return (
     <div className="container-fluid p-5 text-light" style={{ backgroundColor: '#1d1d1d' }}>
-      <h2 className="display-4 fw-bold mb-4" style={{ fontFamily: 'Roboto, sans-serif' }}>Project Locations</h2>
+      <div className="d-flex justify-content-between align-items-center">
+        <h2 className="display-4 fw-bold mb-4 " style={{ fontFamily: 'Roboto, sans-serif' }}>Project Locations</h2>
+        <div className="">
+          <button className="btn btn-large btn-success"> Print Qr Codes</button>
+        </div>
+        
+      </div>
+      
       <ul className="list-group">
         {locations.map((location, index) => (
           <li key={index} className="list-group-item d-flex justify-content-between align-items-center bg-dark text-light mb-2 rounded">
@@ -135,11 +144,6 @@ const Locations = () => {
               className="btn btn-outline-danger" 
               onClick={() => removeLocation(location)}>
                 Delete
-              </button>
-              <button 
-              type="button" 
-              className="btn btn-outline-success">
-                Print QR Code
               </button>
             </div>
           </li>
@@ -182,7 +186,6 @@ const Locations = () => {
           </div>
         </div>
       </div>
-
     </div>
 
 
