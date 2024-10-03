@@ -1,5 +1,5 @@
 import { useState, useEffect} from "react"
-import { useParams } from "react-router-dom";
+import { useParams, NavLink } from "react-router-dom";
 import { getLocations, deleteLocation, createLocation, editLocation } from "./RESTful"
 import LocationsAddEdit from "./LocationsAddEdit";
 import QRCode from "react-qr-code";
@@ -107,9 +107,16 @@ const Locations = () => {
     <div className="container-fluid p-5 text-light" style={{ backgroundColor: '#1d1d1d' }}>
       <div className="d-flex justify-content-between align-items-center">
         <h2 className="display-4 fw-bold mb-4 " style={{ fontFamily: 'Roboto, sans-serif' }}>Project Locations</h2>
-        <div className="">
+        <div className="btn-group">
           <button className="btn btn-large btn-success" onClick={toggleQRCodes}> Print Qr Codes</button>
-          
+          <NavLink 
+          to={`/Preview/${projectId}`} 
+          type="button" 
+          className="btn btn-dark-yellow text-light"
+          style={{
+            backgroundColor: '#c8a700',
+            border: 'none',
+          }}>Preview</NavLink>
         </div>
         
       </div>

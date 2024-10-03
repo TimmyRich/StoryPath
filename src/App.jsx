@@ -4,6 +4,7 @@ import Projects from './components/Projects';
 import Locations from './components/Locations';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Preview from './components/Preview';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Route path="/Projects" element={<Projects />} />
             <Route path="/Locations/:projectId" element={<Locations />} />
             <Route path="/" element={<Home />} />
+            <Route path="/Preview/:projectId" element={<Preview />} />
           </Routes>
         </div>
         
