@@ -22,6 +22,7 @@ const LocationsAddEdit = ({ onSaveLocation, location, projectId }) => {
       setLocationPosition(location.location_position || '(27.4975,153.013276)');
       setScorePoints(location.score_points || 5);
       setClue(location.clue || '');
+      setLocationContent(location.location_content || '')
     }
   }, [location]); // Run effect when location changes
   
@@ -31,6 +32,7 @@ const LocationsAddEdit = ({ onSaveLocation, location, projectId }) => {
     setLocationPosition('(27.4975,153.013276)');
     setScorePoints(5);
     setClue('');
+    setLocationContent('')
   }
 
   const handleSubmit = (e) => {
