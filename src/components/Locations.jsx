@@ -47,8 +47,6 @@ const Locations = () => {
    // Take location object and post it to the API database and add to locations list
   const addLocation = async (newLocation) => {
     newLocation.location_order = getNextOrder()
-    console.log(`New location is:`)
-    console.log(newLocation)
     try {
       const addedLocation = await createLocation(newLocation);
       setLocations([...locations, addedLocation[0]].sort(locationSort));

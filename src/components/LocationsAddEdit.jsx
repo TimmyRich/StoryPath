@@ -12,8 +12,6 @@ const LocationsAddEdit = ({ onSaveLocation, location, projectId }) => {
   const [clue, setClue] = useState(location ? location.clue : '');
   const [locationContent, setLocationContent] = useState(location ? location.location_content : '');
 
-  console.log(locationContent)
-
   // Update form fields when location prop changes
   useEffect(() => {
     if (location) {
@@ -49,7 +47,6 @@ const LocationsAddEdit = ({ onSaveLocation, location, projectId }) => {
         id: location.id,
         username: location.username
       };
-    console.table(newLocation)
     onSaveLocation(newLocation); // Call the parent component's save function
     } else {
       const editedLocation = {
@@ -128,12 +125,8 @@ const LocationsAddEdit = ({ onSaveLocation, location, projectId }) => {
         </div>
         <div className="mb-3">
           <label className="form-label">Location Content</label>
-
           <WYSIWYGEditor content={locationContent} onChange={setLocationContent} />
-
-          {/*<div ref={quillRef} />
-          < div className="form-text">Provide additional content displayed when participants reach this location. Images must be small and in base64 format.</div>*/}
-          </div>
+        </div>
         <div className="text-center">
           <button type="submit" className="btn btn-primary">Save Location</button>
         </div>
