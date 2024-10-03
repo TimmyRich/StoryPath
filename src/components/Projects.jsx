@@ -56,6 +56,11 @@ const Projects = () => {
           <li key={index} className="list-group-item d-flex justify-content-between align-items-center bg-dark text-light mb-2 rounded">
             <div>
               <h5 className="mb-1" style={{ fontFamily: 'Montserrat, sans-serif' }}>{project.title}</h5>
+              {project.is_published ? (
+                  <span className="badge bg-success ms-2">Published</span>
+                ) : (
+                  <span className="badge bg-secondary ms-2">Unpublished</span>
+                )}
               <p className="mb-0" style={{ fontFamily: 'Montserrat, sans-serif' }}>{project.description}</p>
             </div>
             <div className="btn-group" role="group" aria-label="Project actions">
