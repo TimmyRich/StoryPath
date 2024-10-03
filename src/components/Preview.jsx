@@ -7,8 +7,9 @@ const Preview = () => {
     const [project, setProject] = useState({});
     const [locations, setLocations] = useState([]);
     const [selectedLocationId, setSelectedLocationId] = useState(""); // State to manage selected location
-    const [targetLocation, setTargetLocation] = useState({})
+    const [targetLocation, setTargetLocation] = useState({}); // State for the selected location's data
 
+    // Fetch the project and the list of locations when the component mounts
     useEffect(() => {
         const fetchProject = async () => {
             const myProjects = await getProject(projectId);
@@ -19,22 +20,13 @@ const Preview = () => {
         };
         fetchProject();
         fetchLocations();
-    }, [projectId, setSelectedLocationId]);
-
-    // Fetch the location details when selectedLocationId changes
-    //useEffect(() => {
-    //    const fetchLocation = async () => {
-    //        const location = await getLocation(selectedLocationId);
-    //        setTargetLocation(location);
-    //    };
-    //
-    //    fetchLocation();
-    //}, [selectedLocationId]);
+    }, [projectId]);
 
     const handleLocationChange = (e) => {
-        setSelectedLocationId(e.target.value);
+        setSelectedLocationId(e.target.value); 
+        setTargetLocation(locations.find(location => location.id == e.target.value))
     };
-
+    
     return (
         <div className="container-fluid p-5 text-light" style={{ backgroundColor: '#1d1d1d' }}>
             <h2 className="display-4 fw-bold mb-2" style={{ fontFamily: 'Roboto, sans-serif' }}>
@@ -86,7 +78,9 @@ const Preview = () => {
                     }}
                     >
                     <h3>Smartphone Screen</h3>
-                    <h3>{selectedLocationId}</h3>
+                    <h3>{`Project: ${projectId}`}</h3>
+                    <h3>{`LocationID: ${selectedLocationId}`}</h3>
+                    <h3>{targetLocation?.location_name || "Homescreen"}</h3> {/* Display the selected location's name */}
                     </div>
             
                     {/* Home Button */}
