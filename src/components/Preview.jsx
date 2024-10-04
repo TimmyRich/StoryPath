@@ -1,5 +1,5 @@
-import { resolvePath, useParams } from "react-router-dom";
-import { getLocations, getLocation, getProject, locationSort } from "./RESTful";
+import {  useParams } from "react-router-dom";
+import { getLocations, getProject, locationSort } from "./RESTful";
 import { useState, useEffect } from "react";
 
 const Preview = () => {
