@@ -7,8 +7,8 @@
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
-- [GenAI Usage](#ai_usage)
-
+- [GenAI Usage](#genai-usage)
+  
 ## Features
 
 - Create and manage projects
