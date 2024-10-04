@@ -1,28 +1,30 @@
 import { useState, useEffect } from "react";
 
-const ProjectsAddEdit = ({ onSaveProject , project: targetProject }) => {
+const ProjectsAddEdit = ({ onSaveProject, project: targetProject }) => {
+  // Initialize state hooks
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [instructions, setInstructions] = useState('');
+  const [initialClue, setInitialClue] = useState('');
+  const [display, setDisplay] = useState('0'); // Assuming 0 is the default
+  const [scoring, setScoring] = useState('0'); // Assuming 0 is the default
+  const [published, setPublished] = useState(false);
 
   // Re-render form if targetProject changes
   useEffect(() => {
     if (targetProject) {
-      setTitle(targetProject.title);
-      setDescription(targetProject.description);
-      setInstructions(targetProject.instructions);
-      setInitialClue(targetProject.initial_clue);
-      setDisplay(targetProject.homescreen_display);
-      setScoring(targetProject.participant_scoring);
-      setPublished(targetProject.is_published);
+      setTitle(targetProject.title || ''); // Default to empty string if undefined
+      setDescription(targetProject.description || '');
+      setInstructions(targetProject.instructions || '');
+      setInitialClue(targetProject.initial_clue || '');
+      setDisplay(targetProject.homescreen_display || '0');
+      setScoring(targetProject.participant_scoring || '0');
+      setPublished(targetProject.is_published || false);
+    } else {
+      // Reset to default values if no targetProject
+      clearInputs();
     }
   }, [targetProject]);
-
-  // Initialize state hooks
-  const [title, setTitle] = useState(targetProject ? targetProject.title : '');
-  const [description, setDescription] = useState(targetProject ? targetProject.description : '');
-  const [instructions, setInstructions] = useState(targetProject ? targetProject.instructions : '');
-  const [initialClue, setInitialClue] = useState(targetProject ? targetProject.initial_clue : '');
-  const [display, setDisplay] = useState(targetProject ? targetProject.homescreen_display : '0');
-  const [scoring, setScoring] = useState(targetProject ? targetProject.participant_scoring : '0');
-  const [published, setPublished] = useState(targetProject ? targetProject.is_published : false);
 
   const clearInputs = () => {
     setTitle('');
@@ -32,45 +34,29 @@ const ProjectsAddEdit = ({ onSaveProject , project: targetProject }) => {
     setDisplay('0');
     setScoring('0');
     setPublished(false);
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent page reload
 
-    if (onSaveProject.name === 'addProject') {
-      const displayVal = display;
-      const scoringVal = scoring;
-      const newProject = {
-        title,
-        description,
-        instructions,
-        initial_clue: initialClue,
-        homescreen_display: displayVal,
-        is_published: published,
-        participant_scoring: scoringVal,
-      };
+    const newProject = {
+      title,
+      description,
+      instructions,
+      initial_clue: initialClue,
+      homescreen_display: display,
+      is_published: published,
+      participant_scoring: scoring,
+    };
 
-      // Call API to add project
-      onSaveProject(newProject);
-    } else {
-      const displayVal = display;
-      const scoringVal = scoring;
-      const editedProject = {
-        title,
-        description,
-        instructions,
-        initial_clue: initialClue,
-        homescreen_display: displayVal,
-        is_published: published,
-        participant_scoring: scoringVal,
-        id: targetProject.id,
-        username: targetProject.username,
-      };
-
-      // Call API to edit project
-      onSaveProject(editedProject);
+    if (targetProject) {
+      // If editing an existing project
+      newProject.id = targetProject.id;
+      newProject.username = targetProject.username;
     }
 
+    // Call API to save project
+    onSaveProject(newProject);
     clearInputs();
   };
 
@@ -126,8 +112,8 @@ const ProjectsAddEdit = ({ onSaveProject , project: targetProject }) => {
             onChange={(e) => setDisplay(e.target.value)}
             value={display}
           >
-            <option value="Display initial clue">Display Initial Clue</option>
-            <option value="Display all locations">Display All Locations</option>
+            <option value="0">Display initial clue</option>
+            <option value="1">Display all locations</option>
           </select>
           <div className="form-text">Select what to display on the homescreen of the project.</div>
         </div>
@@ -138,9 +124,9 @@ const ProjectsAddEdit = ({ onSaveProject , project: targetProject }) => {
             onChange={(e) => setScoring(e.target.value)}
             value={scoring}
           >
-            <option value="Not Scored">Not Scored</option>
-            <option value="Number of Scanned QR Codes">Number of Scanned QR Codes</option>
-            <option value="Number of Locations Entered">Number of Locations Entered</option>
+            <option value="0">Not Scored</option>
+            <option value="1">Number of Scanned QR Codes</option>
+            <option value="2">Number of Locations Entered</option>
           </select>
           <div className="form-text">Select how participants will be scored in this project.</div>
         </div>
@@ -162,4 +148,3 @@ const ProjectsAddEdit = ({ onSaveProject , project: targetProject }) => {
 };
 
 export default ProjectsAddEdit;
-

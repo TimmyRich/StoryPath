@@ -183,7 +183,8 @@ const Preview = () => {
                             </div>
                         ))} 
                         <h4>{`${targetLocation?.clue ? `Clue for next location:\n${targetLocation.clue}` : ""}`}</h4>
-                        {/* Blue pill-shaped container for score/visited */}
+                        
+                        {/* Scoring/Visited */}
                         <div style={{
                             backgroundColor: "#007bff",
                             borderRadius: "50px",
@@ -193,7 +194,12 @@ const Preview = () => {
                             textAlign: "center",
                             marginTop: "10px"
                             }}>
-                            <h3>{`Score: ${score}/${maxScore} Visited: ${visited}/${locations.length}`}</h3>
+                            <h3>
+                                {project.participant_scoring == 1 && 
+                                    `Score: ${score}/${maxScore} `}
+                                {project.participant_scoring != 0 && 
+                                    `Visited: ${visited}/${locations.length}`}
+                            </h3>
                         </div>
                     </div>
                 
