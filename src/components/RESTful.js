@@ -68,8 +68,8 @@ export async function getProjects() {
 
 /**
  * Function to get a single project by its ID.
- * The url is slightly different from usual RESTFul ...
- * See the operators section https://docs.postgrest.org/en/v12/references/api/tables_views.html
+ * The URL is slightly different from usual RESTful standards.
+ * 
  * @param {string} id - The ID of the project to retrieve.
  * @returns {Promise<object>} - The project object matching the ID.
  */
@@ -98,7 +98,8 @@ export async function editProject(id, project) {
   return apiRequest(`/project?id=eq.${id}`, 'PATCH', project);
 }
 
-//Locations
+// Locations Section
+
 /**
  * Function to insert a new location into the database.
  * 
@@ -150,28 +151,32 @@ export async function deleteLocation(id) {
 export async function editLocation(id, location) {
   return apiRequest(`/location?id=eq.${id}`, 'PATCH', location);
 }
+
 /**
  * Function to generate a location object given some input parameters.
  * 
- * @param {*} name The name of the location
- * @param {*} trigger How the location is triggered by the app.
- * @param {*} position The position of the location by lattitude and longitude.
- * @param {*} points How many points the location is worth
- * @param {*} clue The clue to the next location.
- * @param {*} locationContent Content displayed to the user when the location is visited.
- * @returns 
+ * @param {string} name - The name of the location.
+ * @param {string} project_id - The ID of the associated project.
+ * @param {string} [trigger="Location Entry"] - How the location is triggered by the app.
+ * @returns {object} - The generated location object.
  */
 export const generateLocation = (name, project_id, trigger = "Location Entry") => {
-  return {project_id: project_id, location_name: name, location_trigger: trigger}
-}
+  return {
+    project_id: project_id,
+    location_name: name,
+    location_trigger: trigger
+  };
+};
 
 // Sort Locations by location_order. Should be called when setting locations.
+/**
+ * Function to sort two locations by their order.
+ * 
+ * @param {object} location1 - The first location to compare.
+ * @param {object} location2 - The second location to compare.
+ * @returns {number} - A negative value if location1 should come before location2,
+ * a positive value if location1 should come after location2, or 0 if they are equal.
+ */
 export const locationSort = (location1, location2) => {
-  return location1.location_order - location2.location_order
-}
-
-//Sandbox testing
-
-//let location1 = {location_name: "Location 2", project_id: "16812", location_trigger: "Location Entry", }
-//await createLocation(location1)
-//console.log(await getLocations())
+  return location1.location_order - location2.location_order;
+};

@@ -1,18 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"; 
 
+/**
+ * ProjectsAddEdit component for adding or editing a project.
+ *
+ * @param {function} onSaveProject - Callback function to handle saving the project.
+ * @param {object} project - Project object to edit, or null for a new project.
+ * @returns {JSX.Element} The rendered component.
+ */
 const ProjectsAddEdit = ({ onSaveProject, project: targetProject }) => {
   // Initialize state hooks
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [instructions, setInstructions] = useState('');
-  const [initialClue, setInitialClue] = useState('');
-  const [display, setDisplay] = useState('0'); // Assuming 0 is the default
-  const [scoring, setScoring] = useState('0'); // Assuming 0 is the default
-  const [published, setPublished] = useState(false);
+  const [title, setTitle] = useState(''); // Project title
+  const [description, setDescription] = useState(''); // Project description
+  const [instructions, setInstructions] = useState(''); // Project instructions
+  const [initialClue, setInitialClue] = useState(''); // Initial clue for participants
+  const [display, setDisplay] = useState('0'); // Homescreen display option (default 0)
+  const [scoring, setScoring] = useState('0'); // Participant scoring option (default 0)
+  const [published, setPublished] = useState(false); // Publication status of the project
 
   // Re-render form if targetProject changes
   useEffect(() => {
     if (targetProject) {
+      // Set state from targetProject fields
       setTitle(targetProject.title || ''); // Default to empty string if undefined
       setDescription(targetProject.description || '');
       setInstructions(targetProject.instructions || '');
@@ -26,6 +34,9 @@ const ProjectsAddEdit = ({ onSaveProject, project: targetProject }) => {
     }
   }, [targetProject]);
 
+  /**
+   * Clears the input fields to their default values.
+   */
   const clearInputs = () => {
     setTitle('');
     setDescription('');
@@ -36,9 +47,15 @@ const ProjectsAddEdit = ({ onSaveProject, project: targetProject }) => {
     setPublished(false);
   };
 
+  /**
+   * Handles the form submission.
+   *
+   * @param {Event} e - The event object from the form submission.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent page reload
 
+    // Create a new project object with form data
     const newProject = {
       title,
       description,
@@ -48,16 +65,20 @@ const ProjectsAddEdit = ({ onSaveProject, project: targetProject }) => {
       is_published: published,
       participant_scoring: scoring,
     };
-
+  
+    // If editing an existing project, add its ID and username
     if (targetProject) {
-      // If editing an existing project
       newProject.id = targetProject.id;
       newProject.username = targetProject.username;
     }
-
-    // Call API to save project
-    onSaveProject(newProject);
-    clearInputs();
+  
+    try {
+      // Call API to save project
+      await onSaveProject(newProject);
+      clearInputs(); // Clear inputs after saving
+    } catch (error) {
+      console.error("Failed to save project:", error);
+    }
   };
 
   return (
@@ -69,9 +90,9 @@ const ProjectsAddEdit = ({ onSaveProject, project: targetProject }) => {
           <input
             type="text"
             className="form-control"
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)} // Update title state
             value={title}
-            required
+            required // Make the title input required
           />
           <div className="form-text">The name of your project.</div>
         </div>
@@ -80,9 +101,9 @@ const ProjectsAddEdit = ({ onSaveProject, project: targetProject }) => {
           <input
             type="text"
             className="form-control"
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)} // Update description state
             value={description}
-            required
+            required // Make the description input required
           />
           <div className="form-text">Describe your project. This is not shown to participants.</div>
         </div>
@@ -90,9 +111,9 @@ const ProjectsAddEdit = ({ onSaveProject, project: targetProject }) => {
           <label className="form-label">Instructions</label>
           <textarea
             className="form-control"
-            onChange={(e) => setInstructions(e.target.value)}
+            onChange={(e) => setInstructions(e.target.value)} // Update instructions state
             value={instructions}
-            required
+            required // Make the instructions input required
           />
           <div className="form-text">Give your participants some instructions for this project.</div>
         </div>
@@ -100,7 +121,7 @@ const ProjectsAddEdit = ({ onSaveProject, project: targetProject }) => {
           <label className="form-label">Initial Clue</label>
           <textarea
             className="form-control"
-            onChange={(e) => setInitialClue(e.target.value)}
+            onChange={(e) => setInitialClue(e.target.value)} // Update initial clue state
             value={initialClue}
           />
           <div className="form-text">Optional. Provide a small clue to help get participants started.</div>
@@ -109,7 +130,7 @@ const ProjectsAddEdit = ({ onSaveProject, project: targetProject }) => {
           <label className="form-label">Homescreen Display</label>
           <select
             className="form-select"
-            onChange={(e) => setDisplay(e.target.value)}
+            onChange={(e) => setDisplay(e.target.value)} // Update display state
             value={display}
           >
             <option value="0">Display initial clue</option>
@@ -121,7 +142,7 @@ const ProjectsAddEdit = ({ onSaveProject, project: targetProject }) => {
           <label className="form-label">Participant Scoring</label>
           <select
             className="form-select"
-            onChange={(e) => setScoring(e.target.value)}
+            onChange={(e) => setScoring(e.target.value)} // Update scoring state
             value={scoring}
           >
             <option value="0">Not Scored</option>
@@ -134,7 +155,7 @@ const ProjectsAddEdit = ({ onSaveProject, project: targetProject }) => {
           <input
             type="checkbox"
             className="form-check-input"
-            onChange={(e) => setPublished(e.target.checked)}
+            onChange={(e) => setPublished(e.target.checked)} // Update published state
             checked={published}
           />
           <label className="form-check-label">Published</label>

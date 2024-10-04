@@ -1,4 +1,4 @@
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getLocations, getProject, locationSort } from "./RESTful";
 import { useState, useEffect } from "react";
 
@@ -16,20 +16,29 @@ const Preview = () => {
     useEffect(() => {
         const fetchProject = async () => {
             const myProject = await getProject(projectId);
-            setProject(myProject[0]);
+            setProject(myProject[0]); // Set the project state with the fetched project
         };
+
         const fetchLocations = async () => {
-            setLocations((await getLocations(projectId)).sort(locationSort));
+            const myLocations = await getLocations(projectId);
+            setLocations(myLocations.sort(locationSort)); // Set the locations state, sorted
         };
+
         fetchProject();
         fetchLocations();
     }, [projectId]);
 
+    // Calculate the maximum possible score based on the locations' score points
     const maxScore = locations.reduce((total, location) => total + (location.score_points || 0), 0);
 
+    /**
+     * Handles the change of selected location from the dropdown.
+     * Updates the targetLocation state and player score based on the selected location.
+     * @param {Event} e - The event triggered by selecting a location.
+     */
     const handleLocationChange = (e) => {
-        const locationId = e.target.value;
-        const selectedLocation = locations.find(location => location.id == locationId);
+        const locationId = e.target.value; // Get the selected location ID
+        const selectedLocation = locations.find(location => location.id == locationId); // Find the selected location
         
         // Update selected location state
         setSelectedLocationId(locationId);
@@ -39,14 +48,19 @@ const Preview = () => {
         updatePlayerScore(locationId, selectedLocation?.score_points || 0);
     };
 
+    /**
+     * Updates the player's score and visited locations.
+     * @param {string} locationId - The ID of the selected location.
+     * @param {number} scorePoints - The score points of the selected location.
+     */
     const updatePlayerScore = (locationId, scorePoints) => {
         // Check if locationId is already visited
         if (locationsVisited.find(id => id === locationId)) {
-            return;
+            return; // Do not update score if already visited
         }
         // Check if this is the homescreen
         if (locationId === "") {
-            return;
+            return; // Do not update score for homescreen
         }
 
         // Update the score and visited count
@@ -63,7 +77,7 @@ const Preview = () => {
                 {`Preview for Project: ${project.title}`}
             </h2>
             
-            {/* Dropdown below the header */}
+            {/* Dropdown below the header for selecting locations */}
             <div className="d-flex justify-content-center mb-4">
                 <select
                     className="form-select form-select-lg w-auto"
@@ -79,7 +93,7 @@ const Preview = () => {
                 </select>
             </div>
 
-            {/* Smartphone */}
+            {/* Smartphone display for project preview */}
             <div className="d-flex justify-content-center">
                 <div
                     style={{
@@ -124,7 +138,6 @@ const Preview = () => {
                             <h2>{`${project.title}`}</h2>
                         </div>
                         {/* Conditionally render location_content or a loading message */}
-                        {/* Content Area */}
                         <h3 style={{ margin: "10px 0" }}>{targetLocation?.location_name || "Homescreen"}</h3> {/* Display the selected location's name */}
                         {selectedLocationId ? (
                             <div 
@@ -146,7 +159,6 @@ const Preview = () => {
                                     />
                                 ) : (
                                     <div>
-                                        {/* Optional loading message or homescreen content */}
                                         <p className="text-dark text-center">No content available</p>
                                     </div>
                                 )}
@@ -184,7 +196,7 @@ const Preview = () => {
                         ))} 
                         <h4>{`${targetLocation?.clue ? `Clue for next location:\n${targetLocation.clue}` : ""}`}</h4>
                         
-                        {/* Scoring/Visited */}
+                        {/* Scoring/Visited display */}
                         <div style={{
                             backgroundColor: "#007bff",
                             borderRadius: "50px",
@@ -233,4 +245,4 @@ const Preview = () => {
     );
 };
 
-export default Preview;
+export default Preview
