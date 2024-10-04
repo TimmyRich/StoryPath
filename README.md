@@ -42,6 +42,7 @@ To set up the project locally, follow these steps:
 
 - Used to re-style website homepage to a dark mode theme; prompt: "Restyle my Home component to use darker colours\n\n<-code goes here->"
 - Used to help create WYSIWYG editor that handles images as base64; prompt: "How do I implement a WYSIWYG editor using react-quill that handles images as BASE64 text?"
+- Used to generate a component which resembled a smartphone; prompt: "Generate a JSX component which resembles a smartphone using bootstrap 5 and inline styling only."
 - Used to add additional comments and docstrings where appropriate or missing; prompt: "Where appropriate add comments and function docstrings:\n\n<-code goes here->
 - Used to generate a README template; prompt: "Generate a template for a README.md for my project"
 
