@@ -215,7 +215,7 @@ const Locations = () => {
           <h3>QR Codes</h3>
           {locations.map((location, index) => (
             <div key={index} className="mb-3">
-              <QRCode value={`Location: ${location.location_name}, Points: ${location.score_points}`} />
+              <QRCode value={`${projectId}|${location.id}|${location.score_points}`} />
               <p>{location.location_name}</p>
             </div>
           ))}
